@@ -1,0 +1,9 @@
+fastapi
+python-multipart
+uvicorn
+python-dotenv
+itsdangerous
+SQLAlchemy
+jinja2
+python-jose
+supabase
