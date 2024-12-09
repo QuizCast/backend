@@ -18,3 +18,7 @@ async def get_users():
 @router.post("/create_user", response_model=user_schema.UserResponse)
 async def create_user(user: user_schema.UserCreate):
     return user_crud.create_user(user)
+
+@router.put("/update_user", response_model=user_schema.UserResponse)
+async def update_user(user: user_schema.UserUpdate):
+    return user_crud.update_user(user)

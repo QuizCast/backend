@@ -21,3 +21,10 @@ class UserCreate(BaseModel):
     email: str
     img_url: Optional[str] = "None"
     is_active: Optional[bool] = True
+
+class UserUpdate(BaseModel):
+    id: int
+    name: str
+    email: str
+    img_url: Optional[str] = "None"
+    is_active: Optional[bool] = True

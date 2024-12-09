@@ -18,3 +18,11 @@ def create_user(user: user_schema.UserCreate) -> user_schema.UserResponse:
     except Exception as e:
         return{"error": f"Failed to create user: {str(e)}"}
     
+def update_user(user: user_schema.UserUpdate) -> user_schema.UserResponse:
+    try:
+        updated_user = {"name": user.name, "email": user.email, "is_active": user.is_active, "img_url": user.img_url}
+        response = supabase.table("users").update(updated_user).eq("id", user.id).execute()
+        return response.data[0]
+    except Exception as e:
+        return{"error": f"Failed to update user: {str(e)}"}
+    
