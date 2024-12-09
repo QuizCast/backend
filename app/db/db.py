@@ -7,3 +7,4 @@ if not all([SUPABASE_URL, SUPABASE_KEY, SUPABASE_BUCKET]):
 
 # Initialize the Supabase client
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+

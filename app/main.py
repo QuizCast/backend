@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-import uuid
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.endpoints import users, quizEntry
+from app.db.db import supabase
 
 
 app = FastAPI()
@@ -23,6 +23,7 @@ app.add_middleware(
 
 app.include_router(users.router)
 app.include_router(quizEntry.router)
+
 
 @app.get("/")
 def read_root():
