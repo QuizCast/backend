@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import uuid
 from fastapi.middleware.cors import CORSMiddleware
+from app.api.endpoints import users
 
 
 app = FastAPI()
@@ -19,6 +20,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(users.router)
 
 @app.get("/")
 def read_root():
