@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.endpoints import users, quizEntry
+from app.api.endpoints import users, quizEntry, auth
 from app.db.db import supabase
 
 
@@ -23,6 +23,7 @@ app.add_middleware(
 
 app.include_router(users.router)
 app.include_router(quizEntry.router)
+app.include_router(auth.router)
 
 
 @app.get("/")
