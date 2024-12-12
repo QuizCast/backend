@@ -9,6 +9,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost",
+    "https://frontend-git-dev-tharindu209s-projects.vercel.app"
     "http://localhost:8080",
     "http://localhost:3000",
     "http://localhost:3001",
