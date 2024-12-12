@@ -33,6 +33,7 @@ jobs:
         echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
         echo "SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}" >> .env
         echo "SUPABASE_BUCKET=${{ secrets.SUPABASE_BUCKET }}" >> .env
+        echo "SUPABASE_JWT_SECRET=${{ secrets.SUPABASE_JWT_SECRET }}" >> .env
         echo ".env file created successfully."
 
     - name: Build and Push Docker Image
