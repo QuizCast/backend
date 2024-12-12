@@ -2,3 +2,4 @@
 .env
 test_supabase.py
 __pycache__
+startup.sh

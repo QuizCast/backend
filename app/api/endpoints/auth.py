@@ -1,6 +1,8 @@
 from typing import List, Union
 from fastapi import APIRouter, HTTPException, Form, Response
+from app.schemas import auth_schema, user_schema
 from fastapi.responses import JSONResponse
+from app.crud import user_crud
 from app.db.db import supabase
 
 router = APIRouter(
@@ -8,27 +10,39 @@ router = APIRouter(
     tags=["Authentication"],
 )
 
-@router.post("/signup")
-async def signup(email: str = Form(...), password: str = Form(...)):
+@router.post("/signup", response_model=user_schema.UserResponse)
+async def signup(cred: auth_schema.SignUp):
     try:
         auth_response = supabase.auth.sign_up({
-            'email': email,
-            'password': password
+            'email': cred.email,
+            'password': cred.password,
         })
         
         if auth_response.user is None:
             raise HTTPException(status_code=400, detail="Signup failed")
         
-        return auth_response.user
+        #  Add user to the database and return user
+
+        user = user_crud.create_user(
+            user_schema.UserCreate(
+                name=cred.name,
+                email=cred.email,
+                is_active=cred.is_active,
+                img_url=cred.img_url
+            )
+        )
+
+        return user
+    
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
-@router.post("/login")
-async def login(response: Response, email: str = Form(...), password: str = Form(...)):
+@router.post("/login", response_model=auth_schema.LoginResponse)
+async def login(cred: auth_schema.Login):
     try:
         auth_response = supabase.auth.sign_in_with_password({
-            'email': email,
-            'password': password
+            'email': cred.email,
+            'password': cred.password,
         })
         
         if auth_response.user is None:
@@ -43,8 +57,19 @@ async def login(response: Response, email: str = Form(...), password: str = Form
             secure=True,  
             samesite="Lax" 
         )
-        
-        return json_response
+
+        user = user_crud.get_user_by_email(auth_response.user.email)
+
+        response = auth_schema.LoginResponse(
+            access_token=access_token,
+            token_type="bearer",
+            email=user["email"],
+            user_id=user["id"],
+            name=user["name"],
+        )
+
+        return response
+    
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
