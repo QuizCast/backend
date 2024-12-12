@@ -10,7 +10,6 @@ router = APIRouter(
     tags=["users"],
 )
 
-
 @router.post("/users", response_model=List[user_schema.UserResponse])
 async def get_users():
     return user_crud.get_users()
