@@ -8,3 +8,4 @@ jinja2
 python-jose
 supabase
 email-validator
+pyjwt
