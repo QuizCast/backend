@@ -51,8 +51,8 @@ async def login(response: Response, email: str = Form(...), password: str = Form
 @router.post("/logout")
 async def logout(response: Response):
     try:
-        response = JSONResponse(content={"message": "Logout successful"})
         response.delete_cookie(key="access_token")
+        response = JSONResponse(content={"message": "Logout successful"})
         return response
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

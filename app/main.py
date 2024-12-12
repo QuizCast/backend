@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.endpoints import users, quizEntry, auth
 from app.db.db import supabase
+from app.utils.autherization import auth_middleware
 
 
 app = FastAPI()
@@ -20,6 +21,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.middleware("http")(auth_middleware)
 
 app.include_router(users.router)
 app.include_router(quizEntry.router)
