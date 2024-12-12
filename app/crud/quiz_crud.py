@@ -23,18 +23,23 @@ def join_quiz(participant: quizEntry_schema.Participant):
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to register participant: {e}")
 
         # Fetch quiz questions
-        questions = supabase.table("questions").select("question", "answers", "correct_answer").eq("room_key", participant.room_key).execute()
+        questions = supabase.table("questions").select("question", "answers", "correct_answer", "time").eq("room_key", participant.room_key).execute()
         if not questions.data:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No questions found for the quiz")
 
+        response = [quizEntry_schema.questionResponse(
+            question=question["question"],
+            answers=question["answers"]["answers"],
+            correct_answer=question["correct_answer"],
+            time=question["time"]
+        ) for question in questions.data]
+
         # Return list of questions
-        return [quizEntry_schema.Question(
+        return quizEntry_schema.Question(
                 id=result.data[0]["id"],
                 room_key=participant.room_key,
-                question=question["question"],
-                answers=question["answers"]["answers"],
-                correct_answer=question["correct_answer"]
-                ) for question in questions.data]
+                questions=response
+                )
 
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to join quiz: {e}")
@@ -76,7 +81,7 @@ def create_room(host_id: int):
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to create room: {e}")
     
-def add_questions(questions: List[quizEntry_schema.AddQuestion], user_id: int):
+def add_questions(questions: List[quizEntry_schema.AddQuestion], user_id: int, time: int):
     try:
         # create a new room
         room_key = create_room(user_id)["room_key"]
@@ -90,7 +95,8 @@ def add_questions(questions: List[quizEntry_schema.AddQuestion], user_id: int):
                 "room_key": room_key,
                 "question": question.question,
                 "answers": answers_json,
-                "correct_answer": question.correct_answer
+                "correct_answer": question.correct_answer,
+                "time": time
             }).execute()
 
         print("Questions added successfully")
