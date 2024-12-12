@@ -10,12 +10,16 @@ class AnswerSubmission(BaseModel):
     user_id: int
     score: int
 
-class Question(BaseModel):
-    id: int
-    room_key: int
+class questionResponse(BaseModel):
     question: str
     answers: list
     correct_answer: str
+    time: int
+
+class Question(BaseModel):
+    id: int
+    room_key: int
+    questions: List[questionResponse]
 
 class AddQuestion(BaseModel):
     question: str
@@ -24,6 +28,7 @@ class AddQuestion(BaseModel):
 
 class AddQuestionsRequest(BaseModel):
     user_id: int
+    time: int
     questions: List[AddQuestion]
 
 class RoomKey(BaseModel):
