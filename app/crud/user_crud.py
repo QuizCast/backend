@@ -26,3 +26,10 @@ def update_user(user: user_schema.UserUpdate) -> user_schema.UserResponse:
     except Exception as e:
         return{"error": f"Failed to update user: {str(e)}"}
     
+def get_user_by_email(email: str) -> user_schema.UserResponse:
+    try:
+        user = supabase.table("users").select("*").eq("email", email).execute()
+        return user.data[0]
+    except Exception as e:
+        return{"error": f"Failed to retrieve user: {str(e)}"}
+    
