@@ -15,6 +15,7 @@ origins = [
     "http://localhost:3002",
     "http://localhost:3003",
     "http://localhost:8000",
+    "https://quizcast-teamvertex.vercel.app",
 ]
 
 app.add_middleware(
