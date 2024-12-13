@@ -44,3 +44,7 @@ class LeaderBoard(BaseModel):
     room_key: int
     name: str
     score: int
+
+class DeleteRoomRequest(BaseModel):
+    room_key: int
+    user_id: int

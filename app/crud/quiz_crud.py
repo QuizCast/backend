@@ -105,3 +105,34 @@ def add_questions(questions: List[quizEntry_schema.AddQuestion], user_id: int, t
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to add questions: {e}")
 
+def delete_room(request: quizEntry_schema.DeleteRoomRequest):
+    try:
+        # Check if the room exists
+        room = supabase.table("leaderboard").select("id").eq("room_key", request.room_key).execute()
+        if not room.data:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Room not found")
+
+        # Check if the user is the host
+        if room.data[0]["id"] != request.user_id:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not authorized to delete this room")
+
+        # Delete the participants in the room
+        response = supabase.table("participants").delete().eq("room_key", request.room_key).execute()
+        if response.data == []:
+            # Log the error for debugging, but do not raise an exception
+            print(f"Warning: No participants found for the room or failed to delete participants. Room key: {request.room_key}")
+
+        # Delete the questions in the room
+        response = supabase.table("questions").delete().eq("room_key", request.room_key).execute()
+        if not response.data:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to delete questions")
+
+        # Delete the room
+        response = supabase.table("leaderboard").delete().eq("room_key", request.room_key).execute()
+        if not response.data:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to delete room")
+
+        return {"message": "Room deleted successfully"}
+
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to delete room: {e}")
