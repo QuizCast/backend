@@ -18,3 +18,4 @@ class LoginResponse(BaseModel):
     email: str
     user_id: int
     name: str
+    img_url: Optional[str] = "None"

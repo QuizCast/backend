@@ -66,6 +66,7 @@ async def login(cred: auth_schema.Login):
             email=user["email"],
             user_id=user["id"],
             name=user["name"],
+            img_url=user["img_url"],
         )
 
         return response
