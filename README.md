@@ -1,3 +1,5 @@
+[![Build and Deploy to Azure](https://github.com/QuizCast/backend/actions/workflows/azure-serveless.yml/badge.svg)](https://github.com/QuizCast/backend/actions/workflows/azure-serveless.yml)
+
 # QuizCast Backend
 
 Welcome to the **QuizCast Backend** repository! This backend is built using Python's **FastAPI** framework, providing the core functionality and database management for the QuizCast platform. It handles user authentication, quiz management, leaderboard updates, and integrates seamlessly with **Supabase** for authentication, real-time database updates, and storage.
@@ -150,4 +152,4 @@ This project is open-source and available under the MIT License.
 
 ## Contact
 
-For questions or feedback, feel free to reach out or open an issue. Happy coding! 🎊
+For questions or feedback, feel free to reach out or open an issue. Happy coding! 
