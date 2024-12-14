@@ -96,6 +96,8 @@ http://127.0.0.1:8000/redoc
 
 ---
 
+<img src="images/swaggerUI.png"></img>
+
 ## Project Structure
 
 ```
@@ -119,7 +121,7 @@ backend/
 
 ---
 
-## Contributing
+## Contributing ❤️
 
 We welcome contributions from the community! To get started:
 
@@ -148,4 +150,4 @@ This project is open-source and available under the MIT License.
 
 ## Contact
 
-For questions or feedback, feel free to reach out or open an issue. Happy coding!
+For questions or feedback, feel free to reach out or open an issue. Happy coding! 🎊
