@@ -28,9 +28,9 @@ app.add_middleware(
 )
 app.middleware("http")(auth_middleware)
 
+app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(quizEntry.router)
-app.include_router(auth.router)
 
 
 @app.get("/")

@@ -33,3 +33,11 @@ def get_user_by_email(email: str) -> user_schema.UserResponse:
     except Exception as e:
         return{"error": f"Failed to retrieve user: {str(e)}"}
     
+def get_quiz_history(user_id: int) -> List[user_schema.AvailableQuiz]:
+    try:
+        quiz_history = supabase.table("leaderboard").select("room_key").eq("id", user_id).execute()
+        return [user_schema.AvailableQuiz(id=user_id, room_key=quiz["room_key"]) for quiz in quiz_history.data]
+    except Exception as e:
+        return{"error": f"Failed to retrieve quiz history: {str(e)}"}
+
+    
