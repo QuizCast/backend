@@ -28,3 +28,7 @@ class UserUpdate(BaseModel):
     email: str
     img_url: Optional[str] = "None"
     is_active: Optional[bool] = True
+
+class AvailableQuiz(BaseModel):
+    id: int
+    room_key: int

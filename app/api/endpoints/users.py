@@ -26,3 +26,7 @@ async def update_user(user: user_schema.UserUpdate):
 @router.get("/get_user/{email}", response_model=user_schema.UserResponse, dependencies=[Depends(get_current_user)])
 async def get_user_by_email(email: str):
     return user_crud.get_user_by_email(email)
+
+@router.get("/get_quizHistory/{user_id}", response_model=List[user_schema.AvailableQuiz])
+async def get_quiz_history(user_id: int):
+    return user_crud.get_quiz_history(user_id)
